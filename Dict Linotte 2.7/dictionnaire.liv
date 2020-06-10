@@ -1,0 +1,164 @@
+
+// Spécification : 2.7.0
+// Auteur·ice : Asurix
+
+Tests
+    < vrai
+    < vrai
+    < "{" + µ"0022" + "a" + µ"0022" + ", " + µ"0022" + "c" + µ"0022" + "}"
+    < "{" + µ"0022" + "b" + µ"0022" + ", " + µ"0022" + "d" + µ"0022" + "}"
+    < "{" + µ"0022" + "a" + µ"0022" + "=" + µ"0022" + "b" + µ"0022" + ", " + µ"0022" + "c" + µ"0022" + "=" + µ"0022" + "d" + µ"0022" + "}"
+    < "b"
+    < 2
+    < vrai
+    < 1
+    < 110020
+    < 110020
+    < 110030
+    < 110035
+
+Espèces
+    clefs est un casier de texte
+    valeurs est un casier de texte
+    espèce dictionnaire contient clefs, valeurs
+    
+    clef est un texte
+    valeur est un texte
+    espèce item_joker contient clef, valeur
+
+Principal:
+    dict est un dictionnaire
+    Début
+        Efface tableau
+
+        dict.clef("a", "b") !
+        dict.clef("c", "d") !
+
+        dict.clefs() !
+        dict.valeurs() !
+        dict.clefs_valeurs() !
+
+        dict.items()
+
+        dict.valeur("a") !
+        dict.longueur() !
+        dict.suppr_clef("a") !
+        dict.longueur() !
+
+        Essaie dict.suppr_clef("z")
+        Sinon numéro_erreur !
+
+        Essaie dict.valeur("z")
+        Sinon numéro_erreur !
+
+        Essaie dict.clef(1, "z")
+        Sinon numéro_erreur !
+
+        Essaie dict.clef("z", 1)
+        Sinon numéro_erreur !
+
+clefs de dictionnaire:
+    acod est un texte valant "{"
+    acof est un texte valant "}"
+    guillemet est un texte valant µ"0022"
+
+    clefs est un texte
+    Début
+        Pour chaque moi.longueur() lis
+            Si joker > 0, clefs += "{guillemet}, {guillemet}"
+            clefs += clefs@moi{joker}
+        ferme
+        Retourne "{acod}{guillemet}{clefs}{guillemet}{acof}"
+
+valeurs de dictionnaire:
+    acod est un texte valant "{"
+    acof est un texte valant "}"
+    guillemet est un texte valant µ"0022"
+
+    valeurs est un texte
+    Début
+        Pour chaque moi.longueur() lis
+            Si joker > 0, valeurs += "{guillemet}, {guillemet}"
+            valeurs += valeurs@moi{joker}
+        ferme
+        Retourne "{acod}{guillemet}{valeurs}{guillemet}{acof}"
+
+clefs_valeurs de dictionnaire:
+    acod est un texte valant "{"
+    acof est un texte valant "}"
+    guillemet est un texte valant µ"0022"
+
+    items & cle & valeur est un texte
+    Début
+        Pour chaque moi.longueur() lis
+            Si joker > 0, items += "{guillemet}, {guillemet}"
+            cle vaut clefs de moi{joker}
+            valeur vaut valeurs de moi{joker}
+            items += "{cle}{guillemet}={guillemet}{valeur}"
+        ferme
+        Retourne "{acod}{guillemet}{items}{guillemet}{acof}"
+
+clef de dictionnaire: clef, valeur
+    guillemet est un texte valant µ"0022"
+
+    position est un nombre
+    Début
+
+        Essaie clef == ""
+        Sinon provoque 110030, "La clef {guillemet}{clef}{guillemet} n'est pas un texte."
+
+        Essaie valeur == ""
+        Sinon provoque 110035, "La valeur {guillemet}{valeur}{guillemet} n'est pas un texte."
+
+        Cherche position, position de clef dans clefs@moi
+
+        Si position != 0 lis
+            valeurs@moi{position-1} vaut valeur
+        ferme
+        Sinon lis
+            clefs@moi += clef
+            valeurs@moi += valeur
+        ferme
+
+        Retourne vrai
+
+valeur de dictionnaire: clef
+    position est un nombre
+    Début
+        Cherche position, position de clef dans clefs@moi
+        
+        Si position != 0 lis
+            Retourne valeurs@moi{position-1}
+        ferme
+        Provoque 110020, "La clef {guillemet}{clef}{guillemet} ne se trouve pas dans ce dictionnaire."
+
+suppr_clef de dictionnaire: clef
+    position est un nombre
+    Début
+        Cherche position, position de clef dans clefs@moi
+
+        Si position != 0 lis
+            ôte clefs@moi{position-1} de clefs@moi
+            ôte valeurs@moi{position-1} de valeurs@moi
+            Retourne vrai
+        ferme
+        Provoque 110020, "La clef {guillemet}{clef}{guillemet} ne se trouve pas dans ce dictionnaire."
+
+longueur de dictionnaire:
+    taille_dict est un nombre
+    Début
+        Mesure clefs@moi dans taille_dict
+        Retourne taille_dict
+
+items de dictionnaire:
+    item est un item_joker
+    items est un casier de item_joker
+    Début
+        Pour chaque moi.longueur() lis
+            clef@item vaut clefs@moi{joker}
+            valeur@item vaut valeurs@moi{joker}
+            Ajoute clone(item) dans items
+        ferme
+        Retourne items
+
+// Commentaire pour faire un retour à la ligne évitant un beug l'ors de l'importation

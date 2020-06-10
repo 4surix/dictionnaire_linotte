@@ -1,0 +1,53 @@
+
+// Spécification : 2.7.0
+// Auteur·ice : Asurix
+
+Bibliothèque
+    dict référence dictionnaire.liv
+
+Globale
+    fruits est un dictionnaire
+    légumes est un dictionnaire
+
+Principale :
+    valeur pomme nombre est un nombre
+    valeur pomme texte est un texte
+    Début
+        Efface tableau
+
+        // Impossible de faire :
+        // Parcours clef de légumes avec "haricot", "vert"
+        // Il faut faire :
+        légumes.clef("haricot", "vert")
+        légumes.clef("haricot", "blanc")
+        légumes.clef("tomate", "rouge")
+        légumes.clef("piovron", "jaune")
+
+        Affiche légumes.valeur("tomate")
+
+        légumes.suppr_clef("tomate")
+
+        Pour chaque légumes.items() lis
+            Affiche "La couleur de {clef@joker} est {valeur@joker}."
+        ferme
+
+
+        fruits.clef("pomme", "1")
+        fruits.clef("fraise", "7")
+        fruits.clef("poire", "9")
+
+        Affiche fruits.valeur("pomme")
+
+
+        valeur pomme texte vaut fruits.valeur("pomme")
+
+        Convertis valeur pomme texte en valeur pomme nombre
+        Incrémente valeur pomme nombre
+        Convertis valeur pomme nombre en valeur pomme texte
+
+        fruits.clef("pomme", valeur pomme texte)
+
+
+        Pour chaque fruits.items() lis
+            Affiche "Il y a {valeur@joker} {clef@joker}(s)."
+        ferme
